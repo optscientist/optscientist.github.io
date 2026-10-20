@@ -1,6 +1,8 @@
 # OptScientist: Automated Discovery of Optimization Laws
 
-Official academic project website for **OptScientist**.
+**Official Project Website:** https://optscientist.github.io/
+
+Source repository for the OptScientist project website.
 
 ## Publish on GitHub Pages
 
