@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="OptScientist: Automated Discovery of Optimization Laws. A model and an agentic research system for discovering compact symbolic optimization laws from observational data.">
+  <meta property="og:title" content="OptScientist: Automated Discovery of Optimization Laws">
+  <meta property="og:description" content="Can optimization laws be discovered automatically from observational data?">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="static/images/cover_figure.webp">
+  <link rel="icon" type="image/svg+xml" href="static/favicon.svg">
+  <title>OptScientist — Automated Discovery of Optimization Laws</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500&amp;family=Source+Sans+3:wght@400;500;600;700&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&amp;display=swap">
+  <link rel="stylesheet" href="static/styles.css">
+  <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'}};</script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <script defer src="static/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#motivation">Skip to content</a>
+  <nav class="site-nav" aria-label="Page navigation">
+    <div class="wrap nav-inner">
+      <a class="wordmark" href="#top" aria-label="OptScientist — top of page"><span>Opt</span>Scientist</a>
+      <div class="nav-links">
+        <a href="#motivation">Motivation</a>
+        <a href="#perspective">Perspective</a>
+        <a href="#model">Model</a>
+        <a href="#agent">Agent</a>
+        <a href="#results">Results</a>
+        <a href="#across-sciences">Across Sciences</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wrap" id="top">
+    <header class="masthead">
+      <div class="kicker">Automated scientific discovery</div>
+      <h1><span class="name">OptScientist</span><span class="subtitle">Automated Discovery of Optimization Laws</span></h1>
+      <div class="authors">
+        <span>Ma ZhenYao<sup>1,2</sup></span>
+        <span>Yue Liang<sup>1,3</sup></span>
+        <span>Jian-Qiao Zhu<sup>4</sup></span>
+      </div>
+      <p class="affiliations"><span><sup>1</sup> Plokerm AI Lab</span><span><sup>2</sup> Xiamen University</span><span><sup>3</sup> University of Tübingen</span><span><sup>4</sup> The University of Hong Kong</span></p>
+      <ul class="links" aria-label="Research resources">
+        <li><a class="pill" href="paper/OptScientist_Preprint.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h8l5 5v14a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm7 1.8V8h4.2zM8 12v2h8v-2zm0 4v2h8v-2z"/></svg>Paper (PDF)</a></li>
+        <li><a class="pill secondary" href="#abstract">Abstract ↓</a></li>
+        <li><a class="pill secondary" href="#citation">BibTeX ↓</a></li>
+      </ul>
+    </header>
+
+    <div class="lead">
+      <div class="eyebrow">The scientific question</div>
+      <p class="tldr"><strong>Discover the optimization law behind the observations.</strong> OptScientist first learns to represent data as an optimization problem, then extracts a compact symbolic law and places it within an iterative scientific-discovery process.</p>
+    </div>
+
+    <figure class="teaser">
+      <a class="image-frame js-zoom" href="static/images/cover_figure.webp" data-title="From observations to symbolic optimization laws" aria-label="Enlarge OptScientist illustration"><img src="static/images/cover_figure.webp" width="2403" height="748" alt="Data-space landscape transformed by an Optimization Learner into a learned latent optimization problem and a compact symbolic formula" fetchpriority="high"></a>
+      <figcaption><span class="fig-num">Figure 1.</span><span class="fig-title">From observations to optimization laws.</span> A learned optimization representation bridges a complex data space and a compact symbolic law.</figcaption>
+    </figure>
+
+    <div class="abstract" id="abstract">
+      <h2>Abstract</h2>
+      <p>Many scientific phenomena are best understood as outcomes of underlying optimization problems, yet automated scientific discovery has largely focused on recovering equations that describe observed input–output patterns. We introduce <strong>OptScientist</strong>, a novel automated framework for discovering compact symbolic optimization laws directly from data. OptScientist comprises (i) a model that infers symbolic optimization problems by first learning to represent data as an optimization problem and then extracting its symbolic form, and (ii) an LLM agentic system embedding the model in a discovery process that integrates theoretical priors from scientific literature, discovers candidate laws, abstracts their underlying mechanisms, and suggests new data to collect. We first evaluate OptScientist on <em>OptFeynman</em>, a novel benchmark of 99 physics-derived optimization problems, where OptScientist recovers ground-truth laws for over 80% of the problems and remains robust to noisy contextual information, while substantially outperforming machine-learning, symbolic, and LLM-based model-discovery baselines. On human risky choice and central-bank monetary policy, OptScientist discovers compact symbolic optimization laws that achieve held-out predictive performance competitive with leading baselines, while using few parameters and substantially fewer tokens than LLM baselines. Overall, OptScientist extends automated scientific discovery to uncovering optimization laws that generate observed phenomena, enabling automated theory building across the physical, biological, behavioral, and social sciences.</p>
+    </div>
+
+    <main class="sections">
+      <section id="motivation" class="content">
+        <h2>Can optimization laws be discovered from data?</h2>
+        <div class="prose">
+          <p>Across science, important explanations take the form of <strong>optimization problems</strong>: energy or free-energy minimization in statistical physics, fitness-related optimality models in biology, rational and resource-rational accounts of behavior and cognition, and intertemporal optimization in macroeconomics.</p>
+          <p>Building these theories means identifying objectives and constraints that explain what we observe. Traditionally, scientists formulate those mathematical structures first and then test them against data. As a result, discovering optimization-based explanations depends heavily on <strong>domain experts manually specifying a theory</strong>.</p>
+          <p>The problem becomes harder with real observations: they may be noisy, high-dimensional, and shaped by complex interactions. Hand-crafted interpretable models can miss complex patterns, while flexible machine-learning models can predict without revealing the underlying law.</p>
+        </div>
+        <div class="problem-grid">
+          <div class="problem"><div class="n">Bottleneck 01</div><h3>Manual theory construction</h3><p>Objectives and constraints are usually supplied by scientific experts, rather than discovered from observations.</p></div>
+          <div class="problem"><div class="n">Bottleneck 02</div><h3>Structure beyond prediction</h3><p>Automated discovery largely targets input–output equations; learned optimization representations still require interpretation to become symbolic scientific laws.</p></div>
+        </div>
+        <p class="question"><strong>Can optimization laws be discovered automatically from observational data?</strong></p>
+        <p>OptScientist is designed to make <strong>optimization-law discovery itself</strong> the object of automated scientific discovery.</p>
+      </section>
+
+      <section id="perspective" class="content">
+        <h2>From input–output equations to optimization laws</h2>
+        <div class="prose">
+          <p>Scientific machine learning has made progress in symbolic law discovery and in combining mathematical structure with flexible models. Yet much of automated discovery still focuses on equations that directly relate measured inputs and outputs. For systems understood through optimization, that may leave the crucial scientific question unanswered: <strong>what objective and constraints generate the observed outcome?</strong></p>
+          <p>In an optimization-based account, observed outcomes are solutions to an underlying optimization problem. The law is the <em>objective and constraint structure</em>, not merely a fitted prediction rule.</p>
+        </div>
+        <div class="math-panel"><div class="math-title">The object to be discovered</div><div class="equation">\[\max_{\mathbf y\in\mathcal Y}\; U(\mathbf x,\mathbf y)\qquad\text{s.t.}\quad\mathcal C(\mathbf x,\mathbf y)\leq 0,\quad\mathcal T(\mathbf x,\mathbf y)=0.\]</div></div>
+        <div class="component-list">
+          <div class="component"><div class="tag">Objective</div><p>The quantity being maximized or minimized in the proposed scientific explanation.</p></div>
+          <div class="component"><div class="tag">Constraints</div><p>Restrictions and consistency conditions relevant to that explanation.</p></div>
+          <div class="component"><div class="tag">Outcomes</div><p>The observed responses generated under the problem's context and latent optimization structure.</p></div>
+        </div>
+        <p class="small-note">The discovery target is an optimization objective together with its relevant constraints—not only the map from inputs to outputs.</p>
+      </section>
+
+      <section id="model" class="content">
+        <h2>Learn the representation. Discover the law.</h2>
+        <div class="prose">
+          <p>The <strong>OptScientist Model</strong> tackles a central difficulty: raw scientific observations may not expose a compact symbolic structure. It therefore separates discovery into two linked stages—<strong>optimization representation learning</strong> and <strong>symbolic distillation</strong>.</p>
+        </div>
+        <div class="pathway" aria-label="Two-stage model"><span>Observational data</span><b>→</b><span>OptLearner</span><b>→</b><span>Optimization representation</span><b>→</b><span>OptDiscover</span><b>→</b><span>Symbolic law</span></div>
+        <h3>1. OptLearner: represent data as an optimization problem</h3>
+        <p>Using a hierarchical optimization network with an <strong>optimization representation bottleneck</strong>, the model learns an optimization landscape from observations. This allows it to denoise, compress information, and extract interpretable features before symbolic discovery.</p>
+        <figure style="margin-top:25px"><a class="image-frame js-zoom plain-frame" href="static/images/model_architecture.webp" data-title="OptScientist Model architecture" aria-label="Enlarge model architecture"><img src="static/images/model_architecture.webp" loading="lazy" width="2254" height="778" alt="Original architecture figure cropped to show the Optimization Learner, its single final optimization bottleneck, and the Optimization Discoverer"></a><figcaption><span class="fig-num">Figure 2.</span><span class="fig-title">A bottleneck for symbolic optimization laws.</span> The hierarchical optimization learner produces objective and constraint representations, which are subsequently distilled into expressions.</figcaption></figure>
+        <h3>2. OptDiscover: extract the compact symbolic form</h3>
+        <p>Once the optimization representation has been learned, OptDiscover distills its learned structure into a <strong>compact symbolic optimization problem</strong>. The learned representation exposes a structure that can be expressed symbolically, even when raw observations are noisy, redundant, or high-dimensional.</p>
+        <div class="band"><strong>The central distinction:</strong> the model does not stop at recovering a black-box prediction or an input–output expression; it seeks a symbolic <em>optimization problem</em> that accounts for observed outcomes.</div>
+      </section>
+
+      <section id="agent" class="content">
+        <h2>From symbolic discovery to an iterative scientific process</h2>
+        <div class="prose"><p>Scientific discovery involves more than model fitting. Researchers use existing theories to choose variables, interpret the resulting laws, distill common mechanisms, and decide what evidence is needed next. <strong>OptScientist Agent</strong> places the symbolic-discovery model inside this broader research loop.</p></div>
+        <figure style="margin-top:26px"><a class="image-frame js-zoom" href="static/images/agent_loop.webp" data-title="OptScientist Agent research loop" aria-label="Enlarge agent research loop"><img src="static/images/agent_loop.webp" loading="lazy" width="1599" height="854" alt="Original paper agent diagram with Research Orchestrator, Theory Prior Agent, Experiment Agent and Scientific Critic and Theory Abstraction Agent, with a refinement loop"></a><figcaption><span class="fig-num">Figure 3.</span><span class="fig-title">The OptScientist research loop.</span> A research orchestrator coordinates scientific priors, empirical law discovery, scientific critique, theory abstraction, and the next discovery round.</figcaption></figure>
+        <div class="component-list" style="margin-top:25px">
+          <div class="component"><div class="tag">Theory prior</div><p>Propose scientific priors, candidate variables, and mechanism hypotheses based on the research question and existing literature.</p></div>
+          <div class="component"><div class="tag">Experiment</div><p>Use the OptScientist Model to search observational data for compact symbolic optimization laws.</p></div>
+          <div class="component"><div class="tag">Critique &amp; abstraction</div><p>Evaluate candidate laws, select supported structures, abstract general forms and qualitative mechanisms, and propose new variables or data.</p></div>
+          <div class="component"><div class="tag">Orchestration</div><p>Maintain shared research state and coordinate iterative refinement across discovery rounds.</p></div>
+        </div>
+        <p class="outcome-note"><strong>A hybrid scientific-discovery system:</strong> a specialized model performs optimization-law discovery; LLM research agents use scientific priors and interpret the resulting evidence to inform the next search.</p>
+      </section>
+
+      <section id="results" class="content">
+        <div class="section-kicker">Empirical evidence</div>
+        <h2>Discovering laws across scientific settings</h2>
+        <p>OptScientist is evaluated on a controlled benchmark with known generating laws and on two real-world scientific-discovery tasks where the underlying optimization laws are unknown.</p>
+
+        <div class="study study-first">
+          <div class="study-label"><span class="study-number">01</span> PHYSICAL SYSTEMS <span class="study-kind">· Ground-truth recovery</span></div>
+          <h3>OptFeynman: recovering the generating optimization law</h3>
+          <p>OptFeynman comprises 99 optimization problems derived from analytic physics equations. Each problem generates noisy observations from an induced optimization landscape. On held-out contexts, OptScientist recovers the ground-truth ranking in 88 of 99 discrete tasks and 78 of 99 continuous tasks, substantially outperforming the evaluated machine-learning, symbolic-regression, and LLM-based discovery baselines. Recovery also remains robust to noisy context variables.</p>
+          <div class="metric-strip" aria-label="OptFeynman results">
+            <div class="metric"><strong>99</strong><span>Physics-derived optimization problems</span></div>
+            <div class="metric"><strong>88/99</strong><span>Discrete problems, perfect exact-order recovery</span></div>
+            <div class="metric"><strong>78/99</strong><span>Continuous problems, perfect exact-order recovery</span></div>
+          </div>
+          <figure class="research-figure figure-wide figure-optf">
+            <a class="image-frame js-zoom" href="static/images/optf_full.webp" data-title="OptFeynman benchmark — complete figure" aria-label="Enlarge complete OptFeynman figure"><img src="static/images/optf_full.webp" loading="lazy" width="2668" height="3208" alt="Full OptFeynman figure showing benchmark construction, comparative results for discrete choices and continuous choices at multiple sampled-alternative values"></a>
+            <figcaption><span class="fig-num">Figure 4.</span><span class="fig-title">OptFeynman: benchmark construction and law recovery.</span> The complete original figure, including the benchmark illustration and all discrete and continuous comparisons. <span class="expand-hint">Select to view at full resolution ↗</span></figcaption>
+          </figure>
+        </div>
+
+        <div class="study">
+          <div class="study-label"><span class="study-number">02</span> HUMAN BEHAVIOR <span class="study-kind">· Risky choice</span></div>
+          <h3>Human decisions under risk and ambiguity</h3>
+          <p>Applied to human risky choice, OptScientist discovers a compact law combining <strong>expected reward, cognitive switching cost, and counterfactual reward</strong>. These terms provide an interpretable optimization-based account of choice while maintaining competitive held-out predictive performance.</p>
+          <figure class="research-figure figure-wide figure-case">
+            <a class="image-frame js-zoom" href="static/images/cpc_full.webp" data-title="Human risky choice — complete results" aria-label="Enlarge complete human risky choice figure"><img src="static/images/cpc_full.webp" loading="lazy" width="3391" height="1579" alt="Complete risky-choice figure: training curves, discovered symbolic optimization law and qualitative findings, and held-out comparison plots"></a>
+            <figcaption><span class="fig-num">Figure 5.</span><span class="fig-title">A discovered optimization law for human risky choice.</span> Full results showing the symbolic law, its qualitative interpretation, and predictive comparisons. <span class="expand-hint">Select to enlarge ↗</span></figcaption>
+          </figure>
+        </div>
+
+        <div class="study">
+          <div class="study-label"><span class="study-number">03</span> MACROECONOMICS <span class="study-kind">· Monetary policy</span></div>
+          <h3>Central-bank monetary decisions</h3>
+          <p>For monetary-policy decisions, OptScientist discovers a law in which observed policy <strong>tracks a latent subjective target through squared-error minimization</strong>. The resulting symbolic expression offers a compact candidate explanation for policy decisions and performs competitively against the evaluated baselines.</p>
+          <figure class="research-figure figure-wide figure-case">
+            <a class="image-frame js-zoom" href="static/images/central_full.webp" data-title="Central-bank monetary policy — complete results" aria-label="Enlarge complete central-bank results"><img src="static/images/central_full.webp" loading="lazy" width="3325" height="2123" alt="Complete central-bank monetary policy figure: symbolic optimization law, qualitative findings, and predictive and complexity comparisons"></a>
+            <figcaption><span class="fig-num">Figure 6.</span><span class="fig-title">A discovered law for central-bank monetary policy.</span> Full results including the latent target-tracking formulation, qualitative findings, and comparisons. <span class="expand-hint">Select to enlarge ↗</span></figcaption>
+          </figure>
+        </div>
+
+        <div class="study study-last">
+          <div class="study-label"><span class="study-number">04</span> DISCOVERY EFFICIENCY <span class="study-kind">· Compact symbolic laws</span></div>
+          <h3>Interpretable structures, economical discovery</h3>
+          <p>Across the two real-world studies, the discovered laws attain competitive held-out performance with near-minimal parameter counts and symbolic complexity, while requiring substantially fewer output tokens than LLM-based discovery approaches.</p>
+          <figure class="research-figure figure-wide figure-efficiency">
+            <a class="image-frame js-zoom" href="static/images/token_comparison.webp" data-title="Discovery accuracy and token usage" aria-label="Enlarge discovery efficiency comparison"><img src="static/images/token_comparison.webp" loading="lazy" width="3501" height="1301" alt="Complete comparison of OptScientist and LLM-based discovery baselines including held-out performance and token consumption"></a>
+            <figcaption><span class="fig-num">Figure 7.</span><span class="fig-title">Predictive performance and discovery efficiency.</span> Comparison with LLM-only, code-assisted, and experiment-design baselines.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="across-sciences" class="content">
+        <div class="section-kicker">Scientific perspective</div>
+        <h2>Optimization Laws Across Sciences</h2>
+        <p>Across science, theories frequently explain phenomena as the solutions of optimization problems. The interpretation of each objective and constraint depends on the discipline, but the methodological question is shared: <strong>can the law that generates an observed outcome be learned from data?</strong></p>
+        <div class="discipline-list">
+          <div class="discipline"><h3>Physical sciences</h3><p>Energy and free-energy minimization provide mathematical descriptions of equilibrium states. OptFeynman offers a controlled demonstration of recovering physics-derived optimization laws from observations.</p></div>
+          <div class="discipline"><h3>Biological sciences</h3><p>Fitness-related optimality models describe how evolutionary outcomes may emerge from optimization. Such models motivate an additional domain for optimization-law discovery.</p></div>
+          <div class="discipline"><h3>Behavior and cognition</h3><p>Rational and resource-rational theories explain decisions through goals and constraints. The risky-choice study discovers a symbolic law that combines reward, switching costs, and counterfactual reward.</p></div>
+          <div class="discipline"><h3>Social and economic systems</h3><p>Economic models often begin with specified objectives and constraints. The monetary-policy study demonstrates how a candidate policy objective can instead be recovered from observed decisions.</p></div>
+        </div>
+        <h3>From estimating parameters to discovering laws</h3>
+        <p>Inverse optimization and revealed-preference approaches often start from a pre-specified optimization structure. OptScientist advances a complementary direction: learning the representation of an optimization problem, recovering its compact symbolic form, and incorporating the result into a research process of scientific priors, evaluation, abstraction, and further investigation.</p>
+        <div class="closing-principle"><span class="closing-overline">A general method for scientific discovery</span><p>From <strong>observational patterns</strong> to <strong>optimization representations</strong>, from representations to <strong>symbolic laws</strong>, and from candidate laws to <strong>scientific theories</strong> through iterative evaluation.</p></div>
+      </section>
+
+      <section id="citation" class="content">
+        <h2>Paper and citation</h2>
+        <p>Read the <a href="paper/OptScientist_Preprint.pdf" target="_blank" rel="noopener">full OptScientist paper (PDF)</a> for mathematical details, the experimental protocols, recovered symbolic expressions, comparisons, and limitations.</p>
+        <div class="bib"><div class="bib-head"><span>OptScientist · Preprint · 2026</span><button type="button" id="copy-bibtex" class="copy">Copy BibTeX</button></div><pre tabindex="0"><code id="bibtex-code">@misc{ma2026optscientist,
+  title  = {OptScientist: Automated Discovery of Optimization Laws},
+  author = {ZhenYao, Ma and Liang, Yue and Zhu, Jian-Qiao},
+  year   = {2026},
+  note   = {Preprint}
+}</code></pre></div>
+        <p class="reference">Correspondence to: <a href="mailto:zhenyaoma@163.com">zhenyaoma@163.com</a></p>
+      </section>
+    </main>
+  </div>
+
+  <footer><div class="wrap foot-inner"><span>© 2026 OptScientist · Academic research</span><span><a href="paper/OptScientist_Preprint.pdf" target="_blank" rel="noopener">Paper</a> · <a href="#top">Back to top ↑</a></span></div></footer>
+  <dialog id="zoom-dialog" aria-label="Enlarged research figure">
+    <div class="dialog-header">
+      <span id="zoom-title">Figure</span>
+      <div class="dialog-actions">
+        <button type="button" id="zoom-out" class="zoom-step" aria-label="Zoom out">−</button>
+        <button type="button" id="zoom-reset" class="zoom-reset" aria-label="Fit image to window">Fit</button>
+        <button type="button" id="zoom-in" class="zoom-step" aria-label="Zoom in">+</button>
+        <a id="zoom-open" href="static/images/cover_figure.webp" target="_blank" rel="noopener">Full resolution ↗</a>
+        <button type="button" class="dialog-close" id="zoom-close" aria-label="Close figure">×</button>
+      </div>
+    </div>
+    <div class="zoom-viewport" id="zoom-viewport"><img id="zoom-img" alt=""></div>
+  </dialog>
+</body>
+</html>
